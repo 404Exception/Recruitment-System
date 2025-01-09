@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { CandidateModule } from './candidate/candidate.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { UserModule } from './user/user.module';
       synchronize: false, // Should only be used in development (creates tables automatically)
     }),
     AuthModule,
-    UserModule],
+    UserModule,
+    CandidateModule],
   controllers: [AppController],
   providers: [AppService],
 })

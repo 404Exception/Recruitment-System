@@ -1,6 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { RegisterUserDto } from 'src/dtos/register.dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -26,7 +27,12 @@ export class AuthService {
         };
     }
 
-    async createUser(user: any) {
-        return this.userService.createUser(user.email, user.password)
+    async createUser(user: RegisterUserDto) {
+        const result = await this.userService.findByEmail(user.email);
+        if(result != null)
+        {
+            throw new HttpException('Email address already exist!', HttpStatus.AMBIGUOUS);
+        }
+        return this.userService.createUser(user)
     }
 }
